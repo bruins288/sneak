@@ -3,6 +3,41 @@ import React from "react";
 function App() {
   return (
     <div className="wrapper">
+      <aside className="overlay" style={{ display: "none" }}>
+        <div className="overlay__drawer">
+          <h2>
+            Корзина <img src="/img/delete.svg" alt="Remove" />
+          </h2>
+          <div className="cart">
+            <div className="cart__item">
+              <img src="/img/sneaks/1.jpg" alt="sneak" width={70} height={70} />
+              <div className="cart__item__info">
+                <p>Мужские Кроссовки Nike Blazer Mid Suede</p>
+                <strong>12 999 руб.</strong>
+              </div>
+              <img src="/img/delete.svg" alt="Remove" />
+            </div>
+          </div>
+          <div className="cart__summer">
+            <ul>
+              <li>
+                <span>Итого:</span>
+                <div></div>
+                <strong>21 498 руб.</strong>
+              </li>
+              <li>
+                <span>Налог 5%:</span>
+                <div></div>
+                <strong>1074 руб.</strong>
+              </li>
+            </ul>
+            <button>
+              Оформить заказ
+              <img src="/img/arrow.svg" alt="arrow" />
+            </button>
+          </div>
+        </div>
+      </aside>
       <header>
         <div className="header-left">
           <img src="/img/logo.png" alt="logo" width={40} height={40} />
@@ -21,70 +56,20 @@ function App() {
           </li>
         </ul>
       </header>
-      <div className="content">
-        <h1>Все кроссовки</h1>
+      <main className="content">
+        <div className="content__center">
+          <h1>Все кроссовки</h1>
+          <div className="search-block">
+            <img src="/img/search.svg" alt="search" />
+            <input type="text" placeholder="Поиск..." />
+          </div>
+        </div>
         <div className="content__goods">
           <div className="card">
-            <img
-              src="/img/sneaks/1.jpg"
-              alt="Blazer Mid Suede"
-              width={133}
-              height={112}
-            />
-            <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-            <div className="card__info">
-              <div className="card__cost">
-                <span>Цена:</span>
-                <strong>12 999 руб.</strong>
-              </div>
-              <button className="button">
-                <img src="/img/add.svg" alt="add" width={15} height={15} />
-              </button>
+            <div className="card__favorite">
+              <img src="/img/heart.svg" alt="heart" />
             </div>
-          </div>
-          <div className="card">
-            <img
-              src="/img/sneaks/2.jpg"
-              alt="Blazer Mid Suede"
-              width={133}
-              height={112}
-            />
-            <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-            <div className="card__info">
-              <div className="card__cost">
-                <span>Цена:</span>
-                <strong>12 999 руб.</strong>
-              </div>
-              <button className="button">
-                <img src="/img/add.svg" alt="add" width={15} height={15} />
-              </button>
-            </div>
-          </div>
-          <div className="card">
-            <img
-              src="/img/sneaks/3.jpg"
-              alt="Blazer Mid Suede"
-              width={133}
-              height={112}
-            />
-            <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-            <div className="card__info">
-              <div className="card__cost">
-                <span>Цена:</span>
-                <strong>12 999 руб.</strong>
-              </div>
-              <button className="button">
-                <img src="/img/add.svg" alt="add" width={15} height={15} />
-              </button>
-            </div>
-          </div>
-          <div className="card">
-            <img
-              src="/img/sneaks/4.jpg"
-              alt="Blazer Mid Suede"
-              width={133}
-              height={112}
-            />
+            <img src="/img/sneaks/1.jpg" alt="sneak" width={133} height={112} />
             <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
             <div className="card__info">
               <div className="card__cost">
@@ -97,7 +82,7 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
