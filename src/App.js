@@ -7,9 +7,7 @@ import Drawer from "./components/Drawer.jsx";
 function App() {
   return (
     <div className="wrapper">
-      <aside className="overlay" style={{ display: "none" }}>
-        <Drawer />
-      </aside>
+      <Drawer />
       <Header />
       <main className="content">
         <div className="content__center">
