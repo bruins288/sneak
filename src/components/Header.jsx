@@ -1,6 +1,6 @@
 import React from "react";
 
-function Header() {
+function Header(props) {
   return (
     <header>
       <div className="header-left">
@@ -12,7 +12,13 @@ function Header() {
       </div>
       <ul className="header-right">
         <li className="header-right__info">
-          <img src="/img/cart.svg" alt="cart" width={20} height={18} />
+          <img
+            src="/img/cart.svg"
+            alt="cart"
+            width={20}
+            height={18}
+            onClick={props.onOpenedCart}
+          />
           <span>1205 руб.</span>
         </li>
         <li>

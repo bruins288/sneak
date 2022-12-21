@@ -1,21 +1,31 @@
 import React from "react";
 
-function Drawer() {
+function Drawer({ onClosedCart, removeGoodOnCart, goodsOnCart = [] }) {
+  const handlerRemoveGood = (number) => {
+    removeGoodOnCart(goodsOnCart.filter((_, index) => index !== number));
+  };
   return (
-    <aside className="overlay" style={{ display: "none" }}>
+    <aside className="overlay">
       <div className="overlay__drawer">
         <h2>
-          Корзина <img src="/img/delete.svg" alt="Remove" />
+          Корзина
+          <img src="/img/delete.svg" alt="Remove" onClick={onClosedCart} />
         </h2>
         <div className="cart">
-          <div className="cart__item">
-            <img src="/img/sneaks/1.jpg" alt="sneak" width={90} height={70} />
-            <div className="cart__item__info">
-              <p>Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <strong>12 999 руб.</strong>
+          {goodsOnCart.map((good, index) => (
+            <div className="cart__item" key={index}>
+              <img src={good.imgUrl} alt="sneak" width={90} height={70} />
+              <div className="cart__item__info">
+                <p>{good.title}</p>
+                <strong>{good.price} руб.</strong>
+              </div>
+              <img
+                src="/img/delete.svg"
+                alt="Remove"
+                onClick={() => handlerRemoveGood(index)}
+              />
             </div>
-            <img src="/img/delete.svg" alt="Remove" />
-          </div>
+          ))}
         </div>
         <div className="cart__summer">
           <ul>

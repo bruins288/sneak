@@ -1,7 +1,6 @@
 * {
   font-family: Inter, system-ui;
   box-sizing: border-box;
-  overflow: hidden;
   margin: 0;
   padding: 0;
 }
@@ -170,6 +169,7 @@ header {
     margin-right: 30px;
     img {
       margin-right: 15px;
+      cursor: pointer;
     }
   }
 }
@@ -189,16 +189,8 @@ header {
   }
   &__goods {
     display: flex;
+    flex-wrap: wrap;
   }
-}
-.button {
-  background: #ffffff;
-  border: 1px solid #f2f2f2;
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
 }
 .search-block {
   border: 1px solid #f3f3f3;

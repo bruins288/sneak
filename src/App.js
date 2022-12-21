@@ -4,34 +4,30 @@ import Card from "./components/Card";
 import Header from "./components/Header.jsx";
 import Drawer from "./components/Drawer.jsx";
 
-const arr = [
-  {
-    title: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 12999,
-    imgUrl: "/img/sneaks/1.jpg",
-  },
-  {
-    title: "Мужские Кроссовки Air Max 270",
-    price: 15600,
-    imgUrl: "/img/sneaks/2.jpg",
-  },
-  {
-    title: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 8499,
-    imgUrl: "/img/sneaks/3.jpg",
-  },
-  {
-    title: "Мужские Кроссовки Aka Boku Future Rider",
-    price: 8999,
-    imgUrl: "/img/sneaks/4.jpg",
-  },
-];
+import goodsApi from "./api/GoodsApi.js";
 
 function App() {
+  const [goods, setGoods] = React.useState([]);
+  const [isCartOpened, setIsCartOpened] = React.useState(false);
+  const [goodsOnCart, setGoodsOnCart] = React.useState([]);
+
+  React.useEffect(() => {
+    (async () => {
+      let response = await goodsApi.getGoods();
+      setGoods(response.data);
+    })();
+  }, []);
+
   return (
     <div className="wrapper">
-      <Drawer />
-      <Header />
+      {isCartOpened && (
+        <Drawer
+          goodsOnCart={goodsOnCart}
+          onClosedCart={() => setIsCartOpened(!isCartOpened)}
+          removeGoodOnCart={(goods) => setGoodsOnCart(goods)}
+        />
+      )}
+      <Header onOpenedCart={() => setIsCartOpened(!isCartOpened)} />
       <main className="content">
         <div className="content__center">
           <h1>Все кроссовки</h1>
@@ -41,12 +37,14 @@ function App() {
           </div>
         </div>
         <div className="content__goods">
-          {arr.map((element) => (
+          {goods.map((element, index) => (
             <Card
+              key={index}
               title={element.title}
               price={element.price}
               imgUrl={element.imgUrl}
-              onClick={() => console.log(element)}
+              onAddCart={(good) => setGoodsOnCart(() => [...goodsOnCart, good])}
+              onAddFavorite={() => console.log("Добавили в закладки")}
             />
           ))}
         </div>
