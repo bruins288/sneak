@@ -17,8 +17,31 @@ function App() {
       let response = await goodsApi.getGoods();
       setGoods(response.data);
     })();
+    (async () => {
+      let response = await goodsApi.getCart();
+      setGoodsOnCart(response.data);
+    })();
   }, []);
 
+  const onAddCart = async (good) => {
+    try {
+      let response = await goodsApi.postAddCart(good);
+      setGoodsOnCart((prev) => [...prev, response.data]);
+    } catch (error) {
+      window.alert("Не удалось добавить товар в корзину!");
+      console.error(error);
+    }
+  };
+  const onRemoveGoodCart = async (id) => {
+    try {
+      await goodsApi.deleteGoodCart(id);
+      let newCart = goodsOnCart.filter((good) => good.id !== id);
+      setGoodsOnCart(newCart);
+    } catch (error) {
+      window.alert("Не удалось удалить товар из корзины!");
+      console.error(error);
+    }
+  };
   const changeSearchInput = (event) => {
     setSearchValue(event.target.value);
   };
@@ -29,7 +52,7 @@ function App() {
         <Drawer
           goodsOnCart={goodsOnCart}
           onClosedCart={() => setIsCartOpened(!isCartOpened)}
-          removeGoodOnCart={(goods) => setGoodsOnCart(goods)}
+          removeGood={onRemoveGoodCart}
         />
       )}
       <Header onOpenedCart={() => setIsCartOpened(!isCartOpened)} />
@@ -68,9 +91,7 @@ function App() {
                 title={element.title}
                 price={element.price}
                 imgUrl={element.imgUrl}
-                onAddCart={(good) =>
-                  setGoodsOnCart(() => [...goodsOnCart, good])
-                }
+                onAddCart={onAddCart}
                 onAddFavorite={() => console.log("Добавили в закладки")}
               />
             ))}

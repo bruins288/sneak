@@ -16,6 +16,15 @@ class GoodsApi {
   getGoods() {
     return this.instance.get("goods");
   }
+  getCart() {
+    return this.instance.get("cart");
+  }
+  postAddCart(product) {
+    return this.instance.post("cart", product);
+  }
+  deleteGoodCart(id) {
+    return this.instance.delete("cart/" + id);
+  }
 }
 
 export default new GoodsApi();
