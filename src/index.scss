@@ -100,18 +100,18 @@ body {
     align-items: center;
     margin: 50% auto;
   }
-  &__summer {
-    ul {
-      margin-bottom: 25px;
-      li {
-        display: flex;
-        align-items: baseline;
-        margin-bottom: 20px;
-        div {
-          margin: 0 8px;
-          flex: 1;
-          border: 1px dashed #dfdfdf;
-        }
+}
+.summer {
+  ul {
+    margin-bottom: 25px;
+    li {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 20px;
+      div {
+        margin: 0 8px;
+        flex: 1;
+        border: 1px dashed #dfdfdf;
       }
     }
   }
@@ -150,6 +150,12 @@ header {
       margin-right: 15px;
       cursor: pointer;
     }
+  }
+  li:last-child {
+    margin-left: 35px;
+  }
+  li:nth-child(2) {
+    cursor: pointer;
   }
 }
 .content {

@@ -37,7 +37,7 @@ function Drawer({ onClosedCart, removeGood, goodsOnCart = [] }) {
           )}
         </div>
         {goodsOnCart.length !== 0 && (
-          <div className="cart__summer">
+          <div className="summer">
             <ul>
               <li>
                 <span>Итого:</span>

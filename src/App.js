@@ -1,103 +1,13 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 
-import Card from "./components/Card";
-import Header from "./components/Header.jsx";
-import Drawer from "./components/Drawer.jsx";
-
-import goodsApi from "./api/GoodsApi.js";
+import AppRoutes from "./components/AppRoutes.js";
 
 function App() {
-  const [goods, setGoods] = React.useState([]);
-  const [isCartOpened, setIsCartOpened] = React.useState(false);
-  const [goodsOnCart, setGoodsOnCart] = React.useState([]);
-  const [searchValue, setSearchValue] = React.useState("");
-
-  React.useEffect(() => {
-    (async () => {
-      let response = await goodsApi.getGoods();
-      setGoods(response.data);
-    })();
-    (async () => {
-      let response = await goodsApi.getCart();
-      setGoodsOnCart(response.data);
-    })();
-  }, []);
-
-  const onAddCart = async (good) => {
-    try {
-      let response = await goodsApi.postAddCart(good);
-      setGoodsOnCart((prev) => [...prev, response.data]);
-    } catch (error) {
-      window.alert("Не удалось добавить товар в корзину!");
-      console.error(error);
-    }
-  };
-  const onRemoveGoodCart = async (id) => {
-    try {
-      await goodsApi.deleteGoodCart(id);
-      let newCart = goodsOnCart.filter((good) => good.id !== id);
-      setGoodsOnCart(newCart);
-    } catch (error) {
-      window.alert("Не удалось удалить товар из корзины!");
-      console.error(error);
-    }
-  };
-  const changeSearchInput = (event) => {
-    setSearchValue(event.target.value);
-  };
-
   return (
-    <div className="wrapper">
-      {isCartOpened && (
-        <Drawer
-          goodsOnCart={goodsOnCart}
-          onClosedCart={() => setIsCartOpened(!isCartOpened)}
-          removeGood={onRemoveGoodCart}
-        />
-      )}
-      <Header onOpenedCart={() => setIsCartOpened(!isCartOpened)} />
-      <main className="content">
-        <div className="content__center">
-          <h1>
-            {searchValue ? `Поиск по: "${searchValue}"` : "Все кроссовки"}
-          </h1>
-          <div className="search-block">
-            <img src="/img/search.svg" alt="search" />
-            <input
-              type="text"
-              placeholder="Поиск..."
-              value={searchValue}
-              onChange={changeSearchInput}
-            />
-            {searchValue && (
-              <img
-                src="/img/delete.svg"
-                alt="clear"
-                width={20}
-                height={20}
-                onClick={() => setSearchValue("")}
-              />
-            )}
-          </div>
-        </div>
-        <div className="content__goods">
-          {goods
-            .filter((element) =>
-              element.title.toLowerCase().includes(searchValue)
-            )
-            .map((element, index) => (
-              <Card
-                key={index}
-                title={element.title}
-                price={element.price}
-                imgUrl={element.imgUrl}
-                onAddCart={onAddCart}
-                onAddFavorite={() => console.log("Добавили в закладки")}
-              />
-            ))}
-        </div>
-      </main>
-    </div>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 

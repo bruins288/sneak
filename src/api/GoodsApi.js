@@ -25,6 +25,15 @@ class GoodsApi {
   deleteGoodCart(id) {
     return this.instance.delete("cart/" + id);
   }
+  getFavorite() {
+    return this.instance.get("favorite");
+  }
+  postAddFavorite(product) {
+    return this.instance.post("favorite", product);
+  }
+  deleteFavorite(id) {
+    return this.instance.delete("favorite/" + id);
+  }
 }
 
 export default new GoodsApi();

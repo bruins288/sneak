@@ -2,15 +2,25 @@ import React from "react";
 
 import classes from "./Card.module.scss";
 
-function Card({ title, price, imgUrl, onAddCart }) {
+function Card({
+  id,
+  title,
+  price,
+  imgUrl,
+  addCart,
+  addFavorite,
+  removeFavorite,
+  isFavorite = false,
+}) {
   const [isAddedCart, setIsAddedCart] = React.useState(false);
-  const [isAddedFavorite, setIsAddedFavorite] = React.useState(false);
+  const [isAddedFavorite, setIsAddedFavorite] = React.useState(isFavorite);
 
-  const handleAddedCart = () => {
-    if (!isAddedCart) onAddCart({ title, price, imgUrl });
+  const handleAddedCart = (id) => {
+    if (!isAddedCart) addCart({ title, price, imgUrl, goodId: id });
     setIsAddedCart(!isAddedCart);
   };
-  const handleAddedFavorite = () => {
+  const handleRemoveFavorite = (id) => {
+    if (!isAddedFavorite) addFavorite({ title, price, imgUrl, goodId: id });
     setIsAddedFavorite(!isAddedFavorite);
   };
 
@@ -20,7 +30,7 @@ function Card({ title, price, imgUrl, onAddCart }) {
         <img
           src={!isAddedFavorite ? "/img/heart.svg" : "/img/heart-fill.svg"}
           alt="heart"
-          onClick={handleAddedFavorite}
+          onClick={() => handleRemoveFavorite(id)}
         />
       </div>
       <img src={imgUrl} alt="sneak" width={133} height={112} />
@@ -35,7 +45,7 @@ function Card({ title, price, imgUrl, onAddCart }) {
           alt="add"
           width={20}
           height={20}
-          onClick={handleAddedCart}
+          onClick={() => handleAddedCart(id)}
         />
       </div>
     </div>
