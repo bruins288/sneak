@@ -41,12 +41,9 @@ function Home({
           .map((element) => (
             <Card
               key={element.id}
-              id={element.id}
-              title={element.title}
-              price={element.price}
-              imgUrl={element.imgUrl}
               addCart={onAddCart}
               addFavorite={onAddFavorite}
+              {...element}
             />
           ))}
       </div>

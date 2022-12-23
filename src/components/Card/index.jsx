@@ -7,6 +7,7 @@ function Card({
   title,
   price,
   imgUrl,
+  goodId,
   addCart,
   addFavorite,
   removeFavorite,
@@ -15,12 +16,20 @@ function Card({
   const [isAddedCart, setIsAddedCart] = React.useState(false);
   const [isAddedFavorite, setIsAddedFavorite] = React.useState(isFavorite);
 
-  const handleAddedCart = (id) => {
-    if (!isAddedCart) addCart({ title, price, imgUrl, goodId: id });
+  const handleAddedCart = (id, goodId) => {
+    if (!isAddedCart && !goodId) {
+      addCart({ title, price, imgUrl, goodId: id });
+    } else if (!isAddedCart && goodId) {
+      addCart({ title, price, imgUrl, goodId });
+    }
     setIsAddedCart(!isAddedCart);
   };
-  const handleRemoveFavorite = (id) => {
-    if (!isAddedFavorite) addFavorite({ title, price, imgUrl, goodId: id });
+  const handleFavorite = (id) => {
+    if (!isAddedFavorite) {
+      addFavorite({ title, price, imgUrl, goodId: id });
+    } else if (removeFavorite) {
+      removeFavorite(id);
+    }
     setIsAddedFavorite(!isAddedFavorite);
   };
 
@@ -30,7 +39,7 @@ function Card({
         <img
           src={!isAddedFavorite ? "/img/heart.svg" : "/img/heart-fill.svg"}
           alt="heart"
-          onClick={() => handleRemoveFavorite(id)}
+          onClick={() => handleFavorite(id)}
         />
       </div>
       <img src={imgUrl} alt="sneak" width={133} height={112} />
@@ -45,7 +54,7 @@ function Card({
           alt="add"
           width={20}
           height={20}
-          onClick={() => handleAddedCart(id)}
+          onClick={() => handleAddedCart(id, goodId)}
         />
       </div>
     </div>

@@ -98,6 +98,7 @@ function AppRoutes() {
               changeSearchInput={changeSearchInput}
               onAddCart={onAddCart}
               onAddFavorite={onAddFavorite}
+              onRemove={onRemoveFavorite}
             />
           }
         />
@@ -107,6 +108,7 @@ function AppRoutes() {
             <Favorite
               goodsFavorite={goodsFavorite}
               onAddFavorite={onAddFavorite}
+              onAddCart={onAddCart}
               onRemove={onRemoveFavorite}
             />
           }

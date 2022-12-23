@@ -2,7 +2,7 @@ import React from "react";
 
 import Card from "../components/Card";
 
-function Favorite({ goodsFavorite, onAddFavorite, onRemove }) {
+function Favorite({ goodsFavorite, onRemove, onAddCart }) {
   return (
     <main className="content">
       <div className="content__center">
@@ -12,13 +12,10 @@ function Favorite({ goodsFavorite, onAddFavorite, onRemove }) {
         {goodsFavorite.map((element) => (
           <Card
             key={element.id}
-            id={element.id}
-            title={element.title}
-            price={element.price}
-            imgUrl={element.imgUrl}
             isFavorite={true}
-            addFavorite={onAddFavorite}
             removeFavorite={onRemove}
+            addCart={onAddCart}
+            {...element}
           />
         ))}
       </div>
