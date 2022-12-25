@@ -1,15 +1,28 @@
 import React from "react";
 
 import Card from "../components/Card";
+import AppContext from "../context.js";
 
-function Home({
-  goods,
-  searchValue,
-  setSearchValue,
-  changeSearchInput,
-  onAddCart,
-  onAddFavorite,
-}) {
+function Home() {
+  const [searchValue, setSearchValue] = React.useState("");
+
+  const changeSearchInput = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const state = React.useContext(AppContext);
+
+  const renderCards = () => {
+    let filteredProducts = state.products.filter((item) =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    return (state.isLoading ? [...Array(12)] : filteredProducts).map(
+      (item, index) => (
+        <Card key={index} isLoading={state.isLoading} {...item} />
+      )
+    );
+  };
+
   return (
     <main className="content">
       <div className="content__center">
@@ -33,20 +46,7 @@ function Home({
           )}
         </div>
       </div>
-      <div className="content__goods">
-        {goods
-          .filter((element) =>
-            element.title.toLowerCase().includes(searchValue)
-          )
-          .map((element) => (
-            <Card
-              key={element.id}
-              addCart={onAddCart}
-              addFavorite={onAddFavorite}
-              {...element}
-            />
-          ))}
-      </div>
+      <div className="content__goods">{renderCards()}</div>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Drawer({ onClosedCart, removeGood, goodsOnCart = [] }) {
+function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
   return (
     <aside className="overlay">
       <div className="overlay__drawer">
@@ -9,7 +9,7 @@ function Drawer({ onClosedCart, removeGood, goodsOnCart = [] }) {
           <img src="/img/delete.svg" alt="Remove" onClick={onClosedCart} />
         </h2>
         <div className="cart">
-          {goodsOnCart.length === 0 ? (
+          {itemsOnCart.length === 0 ? (
             <div className="cart__empty">
               <img
                 src="/img/cartempty.png"
@@ -20,23 +20,23 @@ function Drawer({ onClosedCart, removeGood, goodsOnCart = [] }) {
               <h3>Заказов нет</h3>
             </div>
           ) : (
-            goodsOnCart.map((good) => (
-              <div className="cart__item" key={good.id}>
-                <img src={good.imgUrl} alt="sneak" width={90} height={70} />
+            itemsOnCart.map((item) => (
+              <div className="cart__item" key={item.id}>
+                <img src={item.imgUrl} alt="sneak" width={90} height={70} />
                 <div className="cart__item__info">
-                  <p>{good.title}</p>
-                  <strong>{good.price} руб.</strong>
+                  <p>{item.title}</p>
+                  <strong>{item.price} руб.</strong>
                 </div>
                 <img
                   src="/img/delete.svg"
                   alt="Remove"
-                  onClick={() => removeGood(good.id)}
+                  onClick={() => removeItem(item.id)}
                 />
               </div>
             ))
           )}
         </div>
-        {goodsOnCart.length !== 0 && (
+        {itemsOnCart.length !== 0 && (
           <div className="summer">
             <ul>
               <li>

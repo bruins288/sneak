@@ -154,9 +154,6 @@ header {
   li:last-child {
     margin-left: 35px;
   }
-  li:nth-child(2) {
-    cursor: pointer;
-  }
 }
 .content {
   padding: 40px;
@@ -221,12 +218,4 @@ header {
     top: 20px;
     transition: transform 0.15s ease-in-out;
   }
-}
-.overflow-hidden {
-  height: 100%;
-  overflow: hidden;
-}
-.overflow {
-  height: auto;
-  overflow: auto;
 }

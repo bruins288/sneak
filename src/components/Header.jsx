@@ -35,7 +35,14 @@ function Header({ onOpenedCart }) {
           </Link>
         </li>
         <li>
-          <img src="/img/user.svg" alt="Пользователь" width={20} height={20} />
+          <Link to="/order">
+            <img
+              src="/img/user.svg"
+              alt="Пользователь"
+              width={20}
+              height={20}
+            />
+          </Link>
         </li>
       </ul>
     </header>

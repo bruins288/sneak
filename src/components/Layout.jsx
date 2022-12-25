@@ -3,16 +3,18 @@ import { Outlet } from "react-router-dom";
 
 import Drawer from "./Drawer.jsx";
 import Header from "./Header.jsx";
+import AppContext from "../context.js";
 
-function Layout({ goodsOnCart, onRemoveGoodCart }) {
+function Layout() {
   const [isCartOpened, setIsCartOpened] = React.useState(false);
+  const state = React.useContext(AppContext);
   return (
     <div className="wrapper">
       {isCartOpened && (
         <Drawer
-          goodsOnCart={goodsOnCart}
+          itemsOnCart={state.productsInCart}
           onClosedCart={() => setIsCartOpened(!isCartOpened)}
-          removeGood={onRemoveGoodCart}
+          removeItem={state.onRemoveItemCart}
         />
       )}
       <Header onOpenedCart={() => setIsCartOpened(!isCartOpened)} />
