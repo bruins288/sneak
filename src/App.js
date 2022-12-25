@@ -5,17 +5,20 @@ import ProductsApi from "./api/ProductsApi.js";
 import AppContext from "./context.js";
 import AppRoutes from "./components/AppRoutes.js";
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 function App() {
   const [products, setProducts] = React.useState([]);
   const [productsInCart, setProductsInCart] = React.useState([]);
   const [productsInFavorite, setProductsInFavorite] = React.useState([]);
-  const [isLoading, SetIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
     (async () => {
+      setIsLoading(true);
       let responseCart = await ProductsApi.getCart();
       let responseFavorite = await ProductsApi.getFavorites();
       let responseProducts = await ProductsApi.getProducts();
-      SetIsLoading(false);
+      setIsLoading(false);
       setProductsInCart(responseCart.data);
       setProductsInFavorite(responseFavorite.data);
       setProducts(responseProducts.data);
@@ -82,6 +85,27 @@ function App() {
   const isItemInAdded = (id, items) => {
     return items.some((item) => item.productId === id);
   };
+  const clearItemsCart = async (items) => {
+    for (let index = 0; index < items.length; index++) {
+      await ProductsApi.deleteItemCart(items[index].id);
+      await delay(1000);
+    }
+  };
+  const onAddItemsOrders = async (items) => {
+    let response = null;
+    try {
+      response = await ProductsApi.addItemsOrder({ order: items });
+      setProductsInCart([]);
+      clearItemsCart(items);
+    } catch (error) {
+      window.alert("Не удалось сформировать заказ");
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+
+    return response.data;
+  };
 
   return (
     <BrowserRouter>
@@ -94,6 +118,7 @@ function App() {
           onRemoveItemCart,
           onAddItemFavorite,
           onRemoveItemFavorite,
+          onAddItemsOrders,
           isItemInAdded,
           isLoading,
         }}

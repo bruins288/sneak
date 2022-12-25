@@ -34,6 +34,9 @@ class ProductsApi {
   deleteItemFavorite(id) {
     return this.instance.delete("favorite/" + id);
   }
+  addItemsOrder(products) {
+    return this.instance.post("orders", products);
+  }
 }
 
 export default new ProductsApi();

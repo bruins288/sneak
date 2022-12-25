@@ -1,6 +1,19 @@
 import React from "react";
 
+import Info from "./Info";
+import AppContext from "../context.js";
+
 function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
+  const [completedOrder, SetCompletedOrder] = React.useState(false);
+  const [orderId, setOrderId] = React.useState(null);
+  const state = React.useContext(AppContext);
+
+  const onClickOrder = () => {
+    let order = state.onAddItemsOrders(state.productsInCart);
+    setOrderId(order.id);
+    SetCompletedOrder(true);
+  };
+
   return (
     <aside className="overlay">
       <div className="overlay__drawer">
@@ -10,15 +23,20 @@ function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
         </h2>
         <div className="cart">
           {itemsOnCart.length === 0 ? (
-            <div className="cart__empty">
-              <img
-                src="/img/cartempty.png"
-                alt="empty"
-                width={120}
-                height={120}
-              />
-              <h3>Заказов нет</h3>
-            </div>
+            <Info
+              image={
+                !completedOrder
+                  ? "/img/cartempty.png"
+                  : "/img/orderCompleted.jpg"
+              }
+              title={!completedOrder ? "Корзина пуста" : "Заказ оформлен"}
+              description={
+                !completedOrder
+                  ? "нет заказанных товаров"
+                  : `Ваш заказ #${orderId} скоро будет передан курьерской доставке`
+              }
+              onClosedCart={onClosedCart}
+            />
           ) : (
             itemsOnCart.map((item) => (
               <div className="cart__item" key={item.id}>
@@ -50,7 +68,11 @@ function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
                 <strong>1074 руб.</strong>
               </li>
             </ul>
-            <button className="green-button">
+            <button
+              disabled={state.isLoading}
+              className="green-button"
+              onClick={onClickOrder}
+            >
               Оформить заказ
               <img src="/img/arrow.svg" alt="arrow" />
             </button>
