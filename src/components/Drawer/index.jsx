@@ -1,6 +1,7 @@
 import React from "react";
 
-import Info from "./Info";
+import Info from "../Info";
+import classes from "./Drawer.module.scss";
 
 function Drawer({
   onClosedCart,
@@ -8,25 +9,33 @@ function Drawer({
   removeItem,
   totalPrice,
   isLoading,
+  isCartOpened,
   itemsInCart = [],
 }) {
   const [completedOrder, SetCompletedOrder] = React.useState(false);
   const [orderId, setOrderId] = React.useState(null);
 
   const onClickOrder = async () => {
-    let { id } = await onAddOrders(itemsInCart);
-    setOrderId(id);
-    SetCompletedOrder(true);
+    try {
+      const { id } = await onAddOrders(itemsInCart);
+      setOrderId(id);
+      SetCompletedOrder(true);
+    } catch (error) {
+      window.alert("Не удалось передать в службу доставки");
+      console.error(error.message);
+    }
   };
 
   return (
-    <aside className="overlay">
-      <div className="overlay__drawer">
+    <aside
+      className={`${classes.overlay} ${isCartOpened && classes.overlayVisible}`}
+    >
+      <div className={classes.drawer}>
         <h2>
           Корзина
           <img src="/img/delete.svg" alt="Remove" onClick={onClosedCart} />
         </h2>
-        <div className="cart">
+        <div className={classes.cart}>
           {itemsInCart.length === 0 ? (
             <Info
               image={
@@ -44,9 +53,9 @@ function Drawer({
             />
           ) : (
             itemsInCart.map((item) => (
-              <div className="cart__item" key={item.id}>
+              <div className={classes.item} key={item.id}>
                 <img src={item.imgUrl} alt="sneak" width={90} height={70} />
-                <div className="cart__item__info">
+                <div className={classes.info}>
                   <p>{item.title}</p>
                   <strong>{item.price} руб.</strong>
                 </div>
@@ -60,7 +69,7 @@ function Drawer({
           )}
         </div>
         {itemsInCart.length !== 0 && (
-          <div className="summer">
+          <div className={classes.summer}>
             <ul>
               <li>
                 <span>Итого:</span>

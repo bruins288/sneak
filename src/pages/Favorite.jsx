@@ -11,6 +11,7 @@ function Favorite() {
       <div className="content__center">
         <h1>Мои закладки</h1>
       </div>
+      {state.productsInFavorite.length === 0 && <p>Нет закладок</p>}
       <div className="content__goods">
         {(state.isLoading ? [...Array(4)] : state.productsInFavorite).map(
           (item, index) => (

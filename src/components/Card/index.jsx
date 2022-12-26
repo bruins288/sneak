@@ -4,7 +4,7 @@ import ContentLoader from "react-content-loader";
 import AppContext from "../../context.js";
 import classes from "./Card.module.scss";
 
-function Card({ id, title, price, imgUrl, isLoading, isFavorite }) {
+function Card({ id, title, price, imgUrl, isLoading, isFavorite, disabled }) {
   const state = React.useContext(AppContext);
 
   const hasInCart = state.isItemInAdded(id, state.productsInCart);
@@ -28,7 +28,7 @@ function Card({ id, title, price, imgUrl, isLoading, isFavorite }) {
   };
 
   return (
-    <div className={classes.card}>
+    <div className={`${classes.card} ${disabled && classes.nonHover}`}>
       {isLoading ? (
         <ContentLoader
           speed={2}
@@ -47,11 +47,13 @@ function Card({ id, title, price, imgUrl, isLoading, isFavorite }) {
       ) : (
         <React.Fragment>
           <div className={classes.favorite}>
-            <img
-              src={!hasInFavorite ? "/img/heart.svg" : "/img/heart-fill.svg"}
-              alt="heart"
-              onClick={() => handleFavorite(id)}
-            />
+            {!disabled && (
+              <img
+                src={!hasInFavorite ? "/img/heart.svg" : "/img/heart-fill.svg"}
+                alt="heart"
+                onClick={() => handleFavorite(id)}
+              />
+            )}
           </div>
           <img src={imgUrl} alt="sneak" width={133} height={112} />
           <h5>{title}</h5>
@@ -60,13 +62,15 @@ function Card({ id, title, price, imgUrl, isLoading, isFavorite }) {
               <span>Цена:</span>
               <strong>{price} руб.</strong>
             </div>
-            <img
-              src={!hasInCart ? "/img/add.svg" : "/img/added.svg"}
-              alt="add"
-              width={20}
-              height={20}
-              onClick={() => handleAddedCart(id)}
-            />
+            {!disabled && (
+              <img
+                src={!hasInCart ? "/img/add.svg" : "/img/added.svg"}
+                alt="add"
+                width={20}
+                height={20}
+                onClick={() => handleAddedCart(id)}
+              />
+            )}
           </div>
         </React.Fragment>
       )}

@@ -43,3 +43,9 @@
     flex-direction: column;
   }
 }
+.nonHover {
+  &:hover {
+    box-shadow: none;
+    transform: none;
+  }
+}

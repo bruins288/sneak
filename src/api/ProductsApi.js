@@ -37,6 +37,9 @@ class ProductsApi {
   addItemsOrder(products) {
     return this.instance.post("orders", products);
   }
+  getOrders() {
+    return this.instance.get("orders");
+  }
 }
 
 export default new ProductsApi();

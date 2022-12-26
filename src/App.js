@@ -13,16 +13,25 @@ function App() {
   const [productsInFavorite, setProductsInFavorite] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      let responseCart = await ProductsApi.getCart();
-      let responseFavorite = await ProductsApi.getFavorites();
-      let responseProducts = await ProductsApi.getProducts();
-      setIsLoading(false);
-      setProductsInCart(responseCart.data);
-      setProductsInFavorite(responseFavorite.data);
-      setProducts(responseProducts.data);
-    })();
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+        let [responseCart, responseFavorite, responseProducts] =
+          await Promise.all([
+            ProductsApi.getCart(),
+            ProductsApi.getFavorites(),
+            ProductsApi.getProducts(),
+          ]);
+        setIsLoading(false);
+        setProductsInCart(responseCart.data);
+        setProductsInFavorite(responseFavorite.data);
+        setProducts(responseProducts.data);
+      } catch (error) {
+        window.alert("Не удалось загрузить список товаров");
+        console.error(error.message);
+      }
+    }
+    fetchData();
   }, []);
 
   const onAddItemCart = async (item) => {
@@ -87,9 +96,13 @@ function App() {
   };
   //Костыль для mockApi
   const clearItemsCart = async (items) => {
-    for (let index = 0; index < items.length; index++) {
-      await ProductsApi.deleteItemCart(items[index].id);
-      await delay(1000);
+    try {
+      for (let index = 0; index < items.length; index++) {
+        await ProductsApi.deleteItemCart(items[index].id);
+        await delay(1000);
+      }
+    } catch (error) {
+      console.error(error.message);
     }
   };
   const onAddItemsOrders = async (items) => {
