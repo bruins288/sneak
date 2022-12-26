@@ -1,16 +1,21 @@
 import React from "react";
 
 import Info from "./Info";
-import AppContext from "../context.js";
 
-function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
+function Drawer({
+  onClosedCart,
+  onAddOrders,
+  removeItem,
+  totalPrice,
+  isLoading,
+  itemsInCart = [],
+}) {
   const [completedOrder, SetCompletedOrder] = React.useState(false);
   const [orderId, setOrderId] = React.useState(null);
-  const state = React.useContext(AppContext);
 
-  const onClickOrder = () => {
-    let order = state.onAddItemsOrders(state.productsInCart);
-    setOrderId(order.id);
+  const onClickOrder = async () => {
+    let { id } = await onAddOrders(itemsInCart);
+    setOrderId(id);
     SetCompletedOrder(true);
   };
 
@@ -22,7 +27,7 @@ function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
           <img src="/img/delete.svg" alt="Remove" onClick={onClosedCart} />
         </h2>
         <div className="cart">
-          {itemsOnCart.length === 0 ? (
+          {itemsInCart.length === 0 ? (
             <Info
               image={
                 !completedOrder
@@ -38,7 +43,7 @@ function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
               onClosedCart={onClosedCart}
             />
           ) : (
-            itemsOnCart.map((item) => (
+            itemsInCart.map((item) => (
               <div className="cart__item" key={item.id}>
                 <img src={item.imgUrl} alt="sneak" width={90} height={70} />
                 <div className="cart__item__info">
@@ -54,22 +59,22 @@ function Drawer({ onClosedCart, removeItem, itemsOnCart = [] }) {
             ))
           )}
         </div>
-        {itemsOnCart.length !== 0 && (
+        {itemsInCart.length !== 0 && (
           <div className="summer">
             <ul>
               <li>
                 <span>Итого:</span>
                 <div></div>
-                <strong>21 498 руб.</strong>
+                <strong>{totalPrice} руб.</strong>
               </li>
               <li>
-                <span>Налог 5%:</span>
+                <span>Налог 20%:</span>
                 <div></div>
-                <strong>1074 руб.</strong>
+                <strong>{((totalPrice / 100) * 20).toFixed(2)} руб.</strong>
               </li>
             </ul>
             <button
-              disabled={state.isLoading}
+              disabled={isLoading}
               className="green-button"
               onClick={onClickOrder}
             >

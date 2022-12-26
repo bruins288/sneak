@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Header({ onOpenedCart }) {
+function Header({ totalPrice, onOpenedCart }) {
   return (
     <header>
       <Link to="/">
@@ -22,7 +22,7 @@ function Header({ onOpenedCart }) {
             height={18}
             onClick={onOpenedCart}
           />
-          <span>1205 руб.</span>
+          <span>{totalPrice} руб.</span>
         </li>
         <li>
           <Link to="/favorite">

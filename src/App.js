@@ -85,6 +85,7 @@ function App() {
   const isItemInAdded = (id, items) => {
     return items.some((item) => item.productId === id);
   };
+  //Костыль для mockApi
   const clearItemsCart = async (items) => {
     for (let index = 0; index < items.length; index++) {
       await ProductsApi.deleteItemCart(items[index].id);
@@ -94,6 +95,7 @@ function App() {
   const onAddItemsOrders = async (items) => {
     let response = null;
     try {
+      setIsLoading(true);
       response = await ProductsApi.addItemsOrder({ order: items });
       setProductsInCart([]);
       clearItemsCart(items);
